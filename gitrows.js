@@ -15,6 +15,7 @@ module.exports=class Gitrows{
 		this._defaults();
 		this.options(options);
 		this._cache={};
+        this.type=options['type'];
 	    this.cacheTTL=options['cacheTTL'] ? options['cacheTTL']: 5000; // default is 5econds
     }
 	_defaults(){
@@ -70,7 +71,7 @@ module.exports=class Gitrows{
 				};
 				if (typeof obj!='undefined'&&obj)
 					data.content=Util.btoa(Gitrows._stringify(obj,self.type,self.csv));
-				if (typeof sha!='undefined')
+                if (typeof sha!='undefined')
 					data.sha=sha;
 				let headers={
 					'Content-Type': 'application/json',
@@ -89,7 +90,17 @@ module.exports=class Gitrows{
 						data.committer=self.author;
 				}
 				let url=GitPath.toApi(self.options());
-				fetch(url,{
+
+				try{
+                    if (Util.isEmptyObjectArray(obj) || data.content == 'e30='){
+                        data.content = ""
+                    }
+                } catch (e) {
+                    console.log('[x] ERROR : ', e)
+                    reject(Response(500))
+                }
+
+                fetch(url,{
 					method:method,
 					headers: headers,
 					body:JSON.stringify(data),

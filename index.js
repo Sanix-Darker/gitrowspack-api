@@ -19,10 +19,12 @@ const options = {
   token: `${process.env.GITHUB_TOKEN}`,
   csv: { delimiter: ',' },
   cacheTTL: 7000, // You can tweak this value to have a custom cache validity time (3s here)
+  type: EXTENSION,
 }
 
 const getPath = (req, ns='github') => {
-    return `@${ns}/${process.env.GITHUB_OWNER}/${req.params.database}/${req.params.collection}/o.${EXTENSION}`
+    const formatExtension = req.query.format ? req.query.format : EXTENSION;
+    return `@${ns}/${process.env.GITHUB_OWNER}/${req.params.database}/${req.params.collection}/o.${formatExtension}`
 }
 
 const gitrows = new Gitrows(options);

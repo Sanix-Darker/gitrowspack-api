@@ -1,3 +1,14 @@
 {
-    "0.0.1": "sha256:72dbcfa96ca59ad684c62dfe3e72b2d35e6c5a7e0024c5331b005f36be122d72"
+    "0.0.1": {
+        "hash": "sha256:72dbcfa96ca59ad684c62dfe3e72b2d35e6c5a7e0024c5331b005f36be122d72",
+        "changes": ""
+    },
+    "0.0.2": {
+        "hash": "sha256:4ed56ddb5b942c1ea110059f4838ef8e1250644ae2e6966ae72370b6ae2364aa",
+        "changes": "- Supporting 'format' as query string parameter (yml, json, csv)"
+    },
+    "latest": {
+        "hash": "sha256:7799bd6634a95c133d134839723839b59868ee54b2cc11dd54e6593f2b517c98",
+        "changes": ""
+    }
 }
