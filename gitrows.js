@@ -15,13 +15,14 @@ module.exports=class Gitrows{
 		this._defaults();
 		this.options(options);
 		this._cache={};
-	}
+	    this.cacheTTL=options['cacheTTL'] ? options['cacheTTL']: 5000; // default is 5econds
+    }
 	_defaults(){
 		const defaults={
 			ns:'github',
-			branch:'master',
-			message:'GitRows API Post (https://gitrows.com)',
-			author:{name:"GitRows",email:"api@gitrows.com"},
+			branch:'main',
+			message:'GitRowsPack API Post',
+			author:{name:"GitRowsPack",email:"s4nixd@gmail.com"},
 			csv:{delimiter:","},
 			strict:false,
 			default:null
@@ -43,7 +44,7 @@ module.exports=class Gitrows{
 			self.options(pathData);
 			if(!GitPath.isValid(self.options())) reject(Response(400));
 			if (self.user!==undefined&&self.token!==undefined&&self.ns=='github')
-				headers["Authorization"]="Basic "+Util.btoa(self.user+":"+self.token);
+				headers["Authorization"]="token " + self.token;
 			let url=GitPath.toApi(self.options());
 			if (self.ns=='gitlab') url+="?ref="+self.branch;
 			fetch(url,{
@@ -78,13 +79,13 @@ module.exports=class Gitrows{
 					case 'gitlab':
 						headers['Authorization']="Bearer "+self.token;
 						data.encoding='base64';
-						data.commit_message=self.message;
+						data.commit_message=self.message+Date.now().toString();
 						data.author_name=self.author.name;
 						data.author_email=self.author.email;
 						break;
 					default:
-						headers['Authorization']="Basic " + Util.btoa(self.user + ":" + self.token);
-						data.message=self.message;
+						headers['Authorization']="token " + self.token;
+						data.message=self.message+Date.now().toString();
 						data.committer=self.author;
 				}
 				let url=GitPath.toApi(self.options());
@@ -289,21 +290,24 @@ module.exports=class Gitrows{
 		if (test.ns!='github')
 			return Promise.reject(Response(501));
 		const hash=`acl:${test.ns}:${test.owner}:${test.repo}`;
-		if (typeof self._cache[hash]!='undefined')
-			return new Promise((resolve, reject)=>self._cache[hash]?resolve(self._cache[hash]):reject(Response(404)));
+		if (typeof self._cache[hash]['as']!='undefined')
+			if (self._cache[hash]['at'])
+			    if ((Date.now() - self._cache[hash]['at']) < self.cacheTTL)
+			        return new Promise((resolve, reject)=>self._cache[hash]['as']?resolve(self._cache[hash]['as']):reject(Response(404)));
 		let headers={
 			'Content-Type': 'application/json',
 		};
 		if (self.user&&self.token)
-			headers['Authorization']="Basic " + Util.btoa(self.user + ":" + self.token);
+			headers['Authorization']="token " + self.token;
 		return fetch("https://api.github.com/repos/"+test.owner+'/'+test.repo,{headers:headers}).then(r=>{
 			if (!r.ok){
-				self._cache[hash]=null;
+				self._cache[hash]['as']=null;
 				return Response(404);
 			}
 			return r.json().then(data=>{
 				const acl={'private':data.private,'permissions':data.permissions};
-				self._cache[hash]=acl;
+				self._cache[hash]['as']=acl;
+				self._cache[hash]['at']=Date.now();
 				return acl;
 			})
 		}).then(r=>r).catch(e=>e);
@@ -320,15 +324,17 @@ module.exports=class Gitrows{
 		if (!self.user||!self.token)
 			return Promise.reject(Response(403));
 		const hash=`repos:${ns}:${owner}:${!!grouped}`;
-		if (typeof self._cache[hash]!='undefined')
-			return new Promise((resolve, reject)=>self._cache[hash]?resolve(self._cache[hash]):reject(Response(404)));
-		let headers={
+		if (typeof self._cache[hash]['as']!='undefined')
+			if (self._cache[hash]['at'])
+                if ((Date.now() - self._cache[hash]['at']) < self.cacheTTL)
+                    return new Promise((resolve, reject)=>self._cache[hash]['as']?resolve(self._cache[hash]['as']):reject(Response(404)));
+        let headers={
 			'Content-Type': 'application/json',
-			'Authorization': "Basic " + Util.btoa(self.user + ":" + self.token)
+			'Authorization': "token " + self.token
 		};
 		return fetch("https://api.github.com/user/repos?per_page=100",{headers:headers}).then(r=>{
 			if (!r.ok){
-				self._cache[hash]=null;
+				self._cache[hash]['as']=null;
 				return Response(404);
 			}
 			return r.json().then(r=>{
@@ -341,12 +347,14 @@ module.exports=class Gitrows{
 						repos[item]['repos']=r.filter(f=>f.permissions.push&&f.owner.login==item).map(r=>`@${ns}/${r.full_name}`);
 					});
 					repos=(typeof owner!='undefined')?repos[owner]:repos;
-					self._cache[hash]=repos;
+					self._cache[hash]['as']=repos;
+				    self._cache[hash]['at']=Date.now();
 					return repos;
 				}
 				repos=r.filter(f=>f.permissions.push).map(r=>`@${ns}/${r.full_name}`);
 				if (typeof owner!='undefined') repos=repos.filter(r=>~r.indexOf(`@${ns}/${owner}/`));
-				self._cache[hash]=repos;
+				self._cache[hash]['as']=repos;
+				self._cache[hash]['at']=Date.now();
 				return repos;
 			})
 		}).then(r=>r).catch(e=>e);
@@ -365,16 +373,18 @@ module.exports=class Gitrows{
 		if (ns!='github')
 			return Promise.reject(Response(501));
 		const hash=`files:${ns}:${owner}:${repo}`;
-		if (typeof self._cache[hash]!='undefined')
-			return new Promise((resolve, reject)=>self._cache[hash]?resolve(self._cache[hash]):reject(Response(404)));
+		if (typeof self._cache[hash]['as']!='undefined')
+			if (self._cache[hash]['at'])
+			    if ((Date.now() - self._cache[hash]['at']) < self.cacheTTL)
+			        return new Promise((resolve, reject)=>self._cache[hash]['as']?resolve(self._cache[hash]['as']):reject(Response(404)));
 		let headers={
 			'Content-Type': 'application/json',
 		};
 		if (self.user&&self.token)
-			headers['Authorization']="Basic " + Util.btoa(self.user + ":" + self.token);
+			headers['Authorization']="token " + self.token;
 		return fetch("https://api.github.com/repos/"+owner+'/'+repo+'/git/trees/'+branch+'?recursive=1',{headers:headers}).then(r=>{
 			if (!r.ok){
-				self._cache[hash]=null;
+				self._cache[hash]['as']=null;
 				return Response(404);
 			}
 			return r.json().then(data=>{
@@ -384,7 +394,8 @@ module.exports=class Gitrows{
 				data.tree.forEach((item, i) => {
 					contents.push(item.path);
 				});
-				self._cache[hash]=contents;
+				self._cache[hash]['as']=contents;
+				self._cache[hash]['at']=Date.now();
 				return contents;
 			})
 		}).then(r=>r).catch(e=>e);
@@ -452,7 +463,11 @@ module.exports=class Gitrows{
 		if (method=='pull'){
 			return self.pull(GitPath.fromUrl(url)).then(p=>{self._meta.repository.private=true;return Util.atob(p.content)}).catch(e=>e);
 		}
-		return fetch(url)
+        let headers = {
+            "cache-Control": "no-cache",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"
+        }
+		return fetch(url,{headers: headers})
 		.then(
 			r=>{
 				if (r.ok) {
