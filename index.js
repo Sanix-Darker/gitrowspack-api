@@ -11,6 +11,8 @@ const express = require('express')
 dotenv.config();
 const app = express()
 const port = `${process.env.PORT}`
+const version = `${process.env.VERSION}`
+const EXTENSION = `json` // yaml, csv, json
 
 
 const options = {
@@ -20,7 +22,7 @@ const options = {
 }
 
 const getPath = (req, ns='github') => {
-    return `@${ns}/${process.env.GITHUB_OWNER}/${req.params.database}/${req.params.collection}/o.json`
+    return `@${ns}/${process.env.GITHUB_OWNER}/${req.params.database}/${req.params.collection}/o.${EXTENSION}`
 }
 
 const gitrows = new Gitrows(options);
@@ -117,6 +119,6 @@ app.post(`${BASE_ROUTE}/drop/:database/:collection`, async (req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`GitRowsPack-Api started at http://localhost:${port}`)
+    console.log('----------------------------------------------------')
+    console.log(`GitRowsPack-Api-${version} started at http://localhost:${port}`)
 })
-

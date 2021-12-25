@@ -30,4 +30,5 @@ server/*.spec.js
 kubernetes
 
 .env
-
+README.md
+digest.json
