@@ -6,6 +6,10 @@ It support json, csv and yaml file, but as default, we will be using the json.
 
 The purpose of this project is to have a full quick running gitrows's api instance if we have our own private repos that we want to transform as storage !
 
+
+![screen](./screen.gif)
+
+
 ## Disclaimers
 This project is for certain usecases... the github API cache is HUGE, like 4/5mins, so this is not a realtime stuff, you can used in your project... but it does the job... and well !
 
@@ -79,6 +83,9 @@ docker run --env-file .env --rm -p 3030:3030 sanixdarker/gitrowspack-api:0.0.1
 npm install
 npm start # node index.js
 ```
+
+## API Documentation
+You can check the API-Documentation [HERE](https://documenter.getpostman.com/view/2696027/UVREijCS)
 
 ## License
 
