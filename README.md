@@ -6,7 +6,6 @@ It support json, csv and yaml file, but as default, we will be using the json.
 
 The purpose of this project is to have a full quick running gitrows's api instance if we have our own private repos that we want to transform as storage !
 
-
 ![screen](./screen.gif)
 
 
@@ -22,8 +21,8 @@ This project is for certain usecases... the github API cache is HUGE, like 4/5mi
 - Docker
 
 #### For Dev
-- node/npm
-- Docker
+- node/npm (see the package.json for libs)
+- Docker (optionnal)
 
 ## Features
 Transform your github repo into a NoSQl database 
@@ -37,7 +36,8 @@ Second, you just have to follow those instructions
 ```bash
 cd to/a/random/dir
 # get the environment sample file:
-wget -o .env https://raw.githubusercontent.com/Sanix-Darker/gitrowspack-api/master/.env.example
+wget -o .env \
+https://raw.githubusercontent.com/Sanix-Darker/gitrowspack-api/master/.env.example
 
 # or you can clone the project and do a copy
 # cp .env.example .env
@@ -51,12 +51,18 @@ wget -o .env https://raw.githubusercontent.com/Sanix-Darker/gitrowspack-api/mast
 
 ## How to start it
 ### For prod
+
+![docker-screen](./docker-screen.png)
+
 ```bash
 # This will pull an image of gitrowspack and start it
-docker run --env-file .env -it --rm -p 3030:3030 sanixdarker/gitrowspack-api:0.0.1
+docker run \
+--env-file .env \
+-it --rm \
+-p 3030:3030 \
+sanixdarker/gitrowspack-api:latest
 
 # expected output
-# docker run --env-file .env -it --rm -p 3030:3030 sanixdarker/gitrowspack-api:0.0.1
 # Unable to find image 'sanixdarker/gitrowspack-api:0.0.1' locally
 # 0.0.1: Pulling from sanixdarker/gitrowspack-api
 # 482c96fb3fd1: Already exists 
@@ -78,7 +84,7 @@ docker build --no-cache -t sanixdarker/gitrowspack-api:0.0.1 -f Dockerfile .
 # And then run it locally with a valid .env
 docker run --env-file .env --rm -p 3030:3030 sanixdarker/gitrowspack-api:0.0.1
 
-
+# ----------------------------------------------------
 # Or just start it manually
 npm install
 npm start # node index.js
@@ -86,13 +92,9 @@ npm start # node index.js
 
 ## API Documentation
 You can check the API-Documentation [HERE](https://documenter.getpostman.com/view/2696027/UVREijCS)
-
-## License
-
-- MIT
+Under a [MIT](LICENSE).
 
 
 ## Author
 
 - Sanix-darker
-
