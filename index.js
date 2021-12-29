@@ -120,6 +120,24 @@ app.post(`${BASE_ROUTE}/drop/:database/:collection`, async (req, res) => {
 })
 
 
+// Some cli endpoints for checking
+// -------------------------------
+//
+// A simple ping for checking if the service is up
+// curl /api/v1/ping
+app.get(`${BASE_ROUTE}/ping`, async (req, res) => {
+    res.json({
+        "status": "success",
+        "server-ip": `${req.connection.localAddress}`,
+        "version": `GitRowsPack-Api-${version}`,
+        "message": `Welcome to the GitRowsPack shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+	https://github.com/Sanix-Darker/gitrowspack-api`
+    });
+});
+
+
 app.listen(port, () => {
     console.log('----------------------------------------------------')
     console.log(`GitRowsPack-Api-${version} started at http://localhost:${port}`)
