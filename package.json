@@ -4,7 +4,10 @@
   "description": "A node-api for the gitrows npm package",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "docker-build": "docker build --no-cache -t sanixdarker/gitrowspack-api:latest -f Dockerfile .",
+    "docker-build-cache": "docker build -t sanixdarker/gitrowspack-api:latest -f Dockerfile .",
+    "docker-run": "docker run --env-file .env -it --rm -p 3030:3030 sanixdarker/gitrowspack-api:latest"
   },
   "repository": {
     "type": "git",
