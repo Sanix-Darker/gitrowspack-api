@@ -153,8 +153,42 @@ module.exports=class Gitrows{
 			.catch(f=>console.log(f));
 		});
 	}
+    getDatabases(repo, target=null){
+     	let self=this;
+        return new Promise(function(resolve, reject){
+            try{
+                fetch(`https://api.github.com/repos/${self.owner}/${repo}/git/trees/${self.branch}?recursive=1`)
+                .then(res => res.json())
+                .then(data => {
+                    if (target !== null)
+                        resolve(data.tree.filter(d => d.path === target).map(d => d.sha)[0])
+                    else
+                        resolve(data.tree.filter(d => d.type === 'tree').map(d => d.path))
+                });
+            }catch(err){
+                console.log(err)
+                reject(Response(500))
+            }
+        });
+    }
+    getCollections(repo, collection){
+        let self=this;
+        return new Promise(async function(resolve, reject){
+            try {
+                const tree_sha = await self.getDatabases(repo, collection);
+                fetch(`https://api.github.com/repos/${self.owner}/${repo}/git/trees/${tree_sha}`)
+                .then(res => res.json())
+                .then(data => {
+                    resolve(data.tree.filter(d => d.type === 'blob').map(d => {return {'collection': d.path, 'size': d.size}}))
+                })
+            } catch (e) {
+                console.log(e)
+                reject(Response(500))
+            }
+        });
+    }
 	put(path,data){
-		let self=this,base=[],columns;
+		let self=this,base=[];
 		return new Promise(function(resolve, reject) {
 			self.pull(path)
 			.then(
@@ -301,7 +335,7 @@ module.exports=class Gitrows{
 		if (test.ns!='github')
 			return Promise.reject(Response(501));
 		const hash=`acl:${test.ns}:${test.owner}:${test.repo}`;
-		if (typeof self._cache[hash]['as']!='undefined')
+		if (typeof self._cache[hash]!='undefined')
 			if (self._cache[hash]['at'])
 			    if ((Date.now() - self._cache[hash]['at']) < self.cacheTTL)
 			        return new Promise((resolve, reject)=>self._cache[hash]['as']?resolve(self._cache[hash]['as']):reject(Response(404)));
@@ -335,7 +369,7 @@ module.exports=class Gitrows{
 		if (!self.user||!self.token)
 			return Promise.reject(Response(403));
 		const hash=`repos:${ns}:${owner}:${!!grouped}`;
-		if (typeof self._cache[hash]['as']!='undefined')
+		if (typeof self._cache[hash]!='undefined')
 			if (self._cache[hash]['at'])
                 if ((Date.now() - self._cache[hash]['at']) < self.cacheTTL)
                     return new Promise((resolve, reject)=>self._cache[hash]['as']?resolve(self._cache[hash]['as']):reject(Response(404)));
@@ -384,7 +418,7 @@ module.exports=class Gitrows{
 		if (ns!='github')
 			return Promise.reject(Response(501));
 		const hash=`files:${ns}:${owner}:${repo}`;
-		if (typeof self._cache[hash]['as']!='undefined')
+		if (typeof self._cache[hash]!='undefined')
 			if (self._cache[hash]['at'])
 			    if ((Date.now() - self._cache[hash]['at']) < self.cacheTTL)
 			        return new Promise((resolve, reject)=>self._cache[hash]['as']?resolve(self._cache[hash]['as']):reject(Response(404)));
@@ -407,7 +441,8 @@ module.exports=class Gitrows{
 				});
 				self._cache[hash]['as']=contents;
 				self._cache[hash]['at']=Date.now();
-				return contents;
+	            console.log('contents: ', contents)
+                return contents;
 			})
 		}).then(r=>r).catch(e=>e);
 	}
