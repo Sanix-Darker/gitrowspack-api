@@ -3,8 +3,11 @@
 ## v0.0.3
 
 ## Added
+- Updated the endpoint to take projects as parameters [project|database|collection]
 - Added cli endpoints for the CLI client
     - ping endpoint to retrieve host informations
+    - list databases of a project
+    - list collections for a specific database
 
 ## v0.0.2
 
