@@ -2,7 +2,7 @@
 
 ## v0.0.3
 
-## Added
+### Added
 - Updated the endpoint to take projects as parameters [project|database|collection]
 - Added cli endpoints for the CLI client
     - ping endpoint to retrieve host informations
@@ -11,11 +11,12 @@
 
 ## v0.0.2
 
-## Added
+### Added
 - Implemented a sophisticated cache system with a ttl per saved values
     - With a logic of 'as' and 'at'
+- Supporting 'format' as query string parameter (yml, json, csv)
 
-## Fixed
+### Fixed
 - Mismatch on github api integration fixed
 
 ## v0.0.1
