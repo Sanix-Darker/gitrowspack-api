@@ -45,6 +45,7 @@ app.post(`${BASE_ROUTE}/get/:project/:database/:collection`, async (req, res) =>
         getPath(req),
         filter
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -58,6 +59,7 @@ app.post(`${BASE_ROUTE}/put/:project/:database/:collection`, async (req, res) =>
         getPath(req),
         dataToInsert
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -72,6 +74,7 @@ app.post(`${BASE_ROUTE}/update/:project/:database/:collection`, async (req, res)
         dataToInsert,
         filter
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -84,6 +87,7 @@ app.post(`${BASE_ROUTE}/replace/:project/:database/:collection`, async (req, res
         getPath(req),
         dataToInsert,
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -97,6 +101,7 @@ app.post(`${BASE_ROUTE}/delete/:project/:database/:collection`, async (req, res)
         getPath(req),
         filter
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -107,6 +112,7 @@ app.post(`${BASE_ROUTE}/create/:project/:database/:collection`, async (req, res)
     const data = await gitrows.create(
         getPath(req)
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -117,6 +123,7 @@ app.post(`${BASE_ROUTE}/drop/:project/:database/:collection`, async (req, res) =
     const data = await gitrows.drop(
         getPath(req)
     );
+    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -127,6 +134,7 @@ app.post(`${BASE_ROUTE}/drop/:project/:database/:collection`, async (req, res) =
 // A simple ping for checking if the service is up
 // curl /api/v1/ping
 app.get(`${BASE_ROUTE}/ping`, async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
     res.json({
         "status": "success",
         "server-ip": req.hostname,
@@ -141,6 +149,7 @@ For more comprehensive documentation, see
 // A simple endpoint to get the list of databases
 // curl /api/v1/databases
 app.get(`${BASE_ROUTE}/:project/databases`, async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
     res.json({
         "project": req.params.project,
         "databases": await gitrows.getDatabases(req.params.project)
@@ -150,6 +159,7 @@ app.get(`${BASE_ROUTE}/:project/databases`, async (req, res) => {
 // A simple endpoint to get the list of databases
 // curl /api/v1/collections
 app.get(`${BASE_ROUTE}/:project/:database/collections`, async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
     res.json({
         "project": req.params.project,
         "database": req.params.database,
