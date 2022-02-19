@@ -45,7 +45,6 @@ app.post(`${BASE_ROUTE}/get/:project/:database/:collection`, async (req, res) =>
         getPath(req),
         filter
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -59,7 +58,6 @@ app.post(`${BASE_ROUTE}/put/:project/:database/:collection`, async (req, res) =>
         getPath(req),
         dataToInsert
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -74,7 +72,6 @@ app.post(`${BASE_ROUTE}/update/:project/:database/:collection`, async (req, res)
         dataToInsert,
         filter
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -87,7 +84,6 @@ app.post(`${BASE_ROUTE}/replace/:project/:database/:collection`, async (req, res
         getPath(req),
         dataToInsert,
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -101,7 +97,6 @@ app.post(`${BASE_ROUTE}/delete/:project/:database/:collection`, async (req, res)
         getPath(req),
         filter
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -112,7 +107,6 @@ app.post(`${BASE_ROUTE}/create/:project/:database/:collection`, async (req, res)
     const data = await gitrows.create(
         getPath(req)
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -123,7 +117,6 @@ app.post(`${BASE_ROUTE}/drop/:project/:database/:collection`, async (req, res) =
     const data = await gitrows.drop(
         getPath(req)
     );
-    res.setHeader('Content-Type', 'application/json');
     res.json(data)
 })
 
@@ -140,7 +133,6 @@ app.get(`${BASE_ROUTE}/ping`, async (req, res) => {
         "version": `GitRowsPack-Api-${version}`,
         "message": `Welcome to the GitRowsPack shell. For interactive help, type "help". For more comprehensive documentation, see https://github.com/Sanix-Darker/gitrowspack-api`
     }
-    res.setHeader('Content-Type', 'application/json');
     res.json(data);
 });
 
@@ -151,7 +143,6 @@ app.get(`${BASE_ROUTE}/:project/databases`, async (req, res) => {
         "project": req.params.project,
         "databases": await gitrows.getDatabases(req.params.project)
     }
-    res.setHeader('Content-Type', 'application/json');
     res.json(data);
 });
 
@@ -163,7 +154,6 @@ app.get(`${BASE_ROUTE}/:project/:database/collections`, async (req, res) => {
         "database": req.params.database,
         "collections": await gitrows.getCollections(req.params.project, req.params.database)
     }
-    res.setHeader('Content-Type', 'application/json');
     res.json(data);
 });
 
