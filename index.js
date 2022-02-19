@@ -134,37 +134,37 @@ app.post(`${BASE_ROUTE}/drop/:project/:database/:collection`, async (req, res) =
 // A simple ping for checking if the service is up
 // curl /api/v1/ping
 app.get(`${BASE_ROUTE}/ping`, async (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.json({
+    const data = {
         "status": "success",
         "server-ip": req.hostname,
         "version": `GitRowsPack-Api-${version}`,
-        "message": `Welcome to the GitRowsPack shell.
-For interactive help, type "help".
-For more comprehensive documentation, see
-	https://github.com/Sanix-Darker/gitrowspack-api`
-    });
+        "message": `Welcome to the GitRowsPack shell. For interactive help, type "help". For more comprehensive documentation, see https://github.com/Sanix-Darker/gitrowspack-api`
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.json(data);
 });
 
 // A simple endpoint to get the list of databases
 // curl /api/v1/databases
 app.get(`${BASE_ROUTE}/:project/databases`, async (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.json({
+    const data = {
         "project": req.params.project,
         "databases": await gitrows.getDatabases(req.params.project)
-    });
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.json(data);
 });
 
 // A simple endpoint to get the list of databases
 // curl /api/v1/collections
 app.get(`${BASE_ROUTE}/:project/:database/collections`, async (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.json({
+    const data = {
         "project": req.params.project,
         "database": req.params.database,
         "collections": await gitrows.getCollections(req.params.project, req.params.database)
-    });
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.json(data);
 });
 
 
