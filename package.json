@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "A node-api for the gitrows npm package",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "docker-build": "docker build -t sanixdarker/gitrowspack-api:latest -f Dockerfile .",
-    "docker-run": "docker run --env-file .env -it --rm -p 3030:3030 sanixdarker/gitrowspack-api:latest"
+    "dev": "test -f .env && nodemon index.js || echo 'Error, No .env found !'",
+    "start": "test -f .env && node index.js || echo 'Error, No .env found !'",
+    "docker-build": "test -f .env && docker build -t sanixdarker/gitrowspack-api:latest -f Dockerfile . || echo 'Error, No .env found !'",
+    "docker-run": "test -f .env && docker run --env-file .env -it --rm -p 3030:3030 sanixdarker/gitrowspack-api:latest || echo 'Error, No .env found !'"
   },
   "repository": {
     "type": "git",
@@ -33,11 +33,11 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "csv-parse": "4.12.0",
-    "csv-stringify": "5.5.1",
+    "csv-parse": "^4.12.0",
+    "csv-stringify": "^5.5.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
-    "node-fetch": "2.6.0",
-    "yamljs": "0.3.0"
+    "node-fetch": "^2.6.0",
+    "yamljs": "^0.3.0"
   }
 }
