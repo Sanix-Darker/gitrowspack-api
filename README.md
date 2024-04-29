@@ -2,12 +2,11 @@
 
 Soooo, what's is gitrowspack-api in a simple sentence, it's a service interface for your (github/gitlab) repository oriented for Database !
 
-It support json, csv and yaml file, but as default, we will be using the json.
+It support *json*, *csv* and *yaml* file, but as default, we will be using the json.
 
 The purpose of this project is to have a full quick running gitrows's api instance if we have our own private repos that we want to transform as storage !
 
 ![screen](./screen.gif)
-
 
 ## Disclaimers
 This project is for certain usecases... the github API cache is HUGE, like 4/5mins, so this is not a realtime stuff, you can used in your project... but it does the job... and well !
@@ -25,7 +24,7 @@ This project is for certain usecases... the github API cache is HUGE, like 4/5mi
 - Docker (optionnal)
 
 ## Features
-Transform your github repo into a NoSQl database 
+Transform your github repo into a NoSQl database
 
 
 ## How to set up
@@ -44,7 +43,7 @@ https://raw.githubusercontent.com/Sanix-Darker/gitrowspack-api/master/.env.examp
 
 # and provide valids parameters inside
 # GITHUB_OWNER is your github username
-# GITHUB_TOKEN is a github access token you can create from your settings easily: https://github.com/settings/tokens 
+# GITHUB_TOKEN is a github access token you can create from your settings easily: https://github.com/settings/tokens
 
 # And you're all set :-)
 ```
@@ -65,16 +64,21 @@ sanixdarker/gitrowspack-api:latest
 # expected output
 # Unable to find image 'sanixdarker/gitrowspack-api:0.0.1' locally
 # 0.0.1: Pulling from sanixdarker/gitrowspack-api
-# 482c96fb3fd1: Already exists 
-# 8a46b85b8b61: Pull complete 
-# 1a99571c09c9: Pull complete 
-# e7276d16c1c3: Pull complete 
-# 1d5b7776a505: Pull complete 
+# 482c96fb3fd1: Already exists
+# 8a46b85b8b61: Pull complete
+# 1a99571c09c9: Pull complete
+# e7276d16c1c3: Pull complete
+# 1d5b7776a505: Pull complete
 # Digest: sha256:72dbcfa96ca59ad684c62dfe3e72b2d35e6c5a7e0024c5331b005f36be122d72
 # Status: Downloaded newer image for sanixdarker/gitrowspack-api:0.0.1
 # GitRowsPack-Api started at http://localhost:3030
 
-# For security, make sure the Digest hash you got match the version from the 'digest.json' file or from [dockerhub](https://hub.docker.com/repository/docker/sanixdarker/gitrowspack-api/general)
+# Now you can test it out
+# To list available databases (note that the repo needed to be created first)
+# curl http://127.0.0.1:3030/api/v1/<repo-name>/databases
+
+# And the collection is a directory
+# curl http://127.0.0.1:3030/api/v1/<repo-name>/<database-name>/collections
 ```
 
 ### For dev

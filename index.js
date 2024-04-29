@@ -1,10 +1,11 @@
 // The entrypoint is here !
 // gitrows support .json|.csv|.yaml
+// For refs, check the repo https://github.com/Sanix-Darker/data
 
 // We set the dotenv
 const dotenv = require('dotenv');
 // We instantiate our gitrows
-const Gitrows = require('./gitrows');
+const Gitrows = require('./lib/gitrows');
 // We call express
 const express = require('express')
 
@@ -137,7 +138,7 @@ app.get(`${BASE_ROUTE}/ping`, async (req, res) => {
 });
 
 // A simple endpoint to get the list of databases
-// curl /api/v1/databases
+// curl http://127.0.0.1:3030/api/v1/data/databases # data is the repository
 app.get(`${BASE_ROUTE}/:project/databases`, async (req, res) => {
     const data = {
         "project": req.params.project,
@@ -147,7 +148,7 @@ app.get(`${BASE_ROUTE}/:project/databases`, async (req, res) => {
 });
 
 // A simple endpoint to get the list of databases
-// curl /api/v1/collections
+// curl http://127.0.0.1:3030/api/v1/data/dx/collections # 'data' is a repo and 'dx' is a directory
 app.get(`${BASE_ROUTE}/:project/:database/collections`, async (req, res) => {
     const data = {
         "project": req.params.project,
