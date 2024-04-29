@@ -73,8 +73,6 @@ sanixdarker/gitrowspack-api:latest
 # Status: Downloaded newer image for sanixdarker/gitrowspack-api:0.0.1
 # GitRowsPack-Api started at http://localhost:3030
 
-# For security, make sure the Digest hash you got match the version from the 'digest.json' file or from [dockerhub](https://hub.docker.com/repository/docker/sanixdarker/gitrowspack-api/general)
-
 # Now you can test it out
 # To list available databases (note that the repo needed to be created first)
 # curl http://127.0.0.1:3030/api/v1/<repo-name>/databases
