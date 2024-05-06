@@ -1,6 +1,7 @@
 # GitRowsPack-Api
 
-Soooo, what's is gitrowspack-api in a simple sentence, it's a service interface for your (github/gitlab) repository oriented for Database !
+GRP is a service interface for your (github/gitlab) repository oriented for Database (NoSQL)!
+Basically, you can stored data on a repository and with this running service as the backend to access it.
 
 It support *json*, *csv* and *yaml* file, but as default, we will be using the json.
 
@@ -8,30 +9,27 @@ The purpose of this project is to have a full quick running gitrows's api instan
 
 ![screen](./screen.gif)
 
-## Disclaimers
-This project is for certain usecases... the github API cache is HUGE, like 4/5mins, so this is not a realtime stuff, you can used in your project... but it does the job... and well !
+## DISCLAIMERS
 
-**This is a node-rest-api project inspired from an amazing npm package [gitrows](https://www.npmjs.com/package/gitrows) made by [Nicolas-Zimmer](https://github.com/nicolaszimmer) long time ago !**
+This project is for certain usecases... the github API cache is HUGE, like 4/5mins, so this it's not a realtime stuff, you can use in your project.
+But it does the job for data that is not going to change MORE often!
 
-**__With a lot of improvements and bugs fixes (due to github api changes) !__**
+**This is a node-rest-api service inspired from an amazing npm package [gitrows](https://www.npmjs.com/package/gitrows) made by [Nicolas-Zimmer](https://github.com/nicolaszimmer) long time ago !**
 
-## Requirements
-#### For prod
-- Docker
+- **__With Code improvements and some bugs fixes (due to github/gitlab api changes) !__**
+- **__With CI and running tests to ensure we have everything working on new releases !__**
 
-#### For Dev
-- node/npm (see the package.json for libs)
-- Docker (optionnal)
+## REQUIREMENTS
 
-## Features
-Transform your github repo into a NoSQl database
+- node/npm (see the package.json for deps...)
+- DOCKER (optionnal)
 
+## HOW TO SET UP
 
-## How to set up
+- Create a repository in your _github/gitlab_ profile, you can call it *'data'* for example(see mine here : https://github.com/sanix-Darker/data).
+- Each directory in your project will be a *'database'* and inside, each *.json, *.csv, *.yaml is a database collection.
 
-First, you need to create a repository in your github/gitlab profile, you can call it 'data' or whatever... but keep in mind that, each directory in your project will be a 'database' and inside there will be an 'o.json' file that will represent your collection !
-
-Second, you just have to follow those instructions
+- Follow those steps:
 ```bash
 cd to/a/random/dir
 # get the environment sample file:
@@ -48,8 +46,9 @@ https://raw.githubusercontent.com/Sanix-Darker/gitrowspack-api/master/.env.examp
 # And you're all set :-)
 ```
 
-## How to start it
-### For prod
+## HOW TO START IT
+
+### USING THE DOCKER IMAGE
 
 ![docker-screen](./docker-screen.png)
 
@@ -81,24 +80,28 @@ sanixdarker/gitrowspack-api:latest
 # curl http://127.0.0.1:3030/api/v1/<repo-name>/<database-name>/collections
 ```
 
-### For dev
+### BUILD YOUR OWN IMAGE
+
 ```bash
 # You can build the image locally yourself
 docker build --no-cache -t sanixdarker/gitrowspack-api:0.0.1 -f Dockerfile .
 # And then run it locally with a valid .env
 docker run --env-file .env --rm -p 3030:3030 sanixdarker/gitrowspack-api:0.0.1
+```
 
-# ----------------------------------------------------
-# Or just start it manually
+### NO DOCKER INVOLVES
+
+```bash
 npm install
 npm start # node index.js
 ```
 
-## API Documentation
+## API DOCUMENTATION
+
 You can check the API-Documentation [HERE](https://documenter.getpostman.com/view/2696027/UVREijCS)
 Under a [MIT](LICENSE).
 
 
-## Author
+## AUTHOR
 
-- Sanix-darker
+- [dk](https://github.com/sanix-darker)

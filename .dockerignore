@@ -29,7 +29,6 @@ node_modules
 server/*.spec.js
 kubernetes
 
-.env
 README.md
 digest.json
 screen.gif

@@ -1,10 +1,11 @@
 {
   "name": "gitrowspack-api",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A node-api for the gitrows npm package",
   "scripts": {
     "dev": "test -f .env && nodemon index.js || echo 'Error, No .env found !'",
     "start": "test -f .env && node index.js || echo 'Error, No .env found !'",
+    "test": "jest",
     "docker-build": "test -f .env && docker build -t sanixdarker/gitrowspack-api:latest -f Dockerfile . || echo 'Error, No .env found !'",
     "docker-run": "test -f .env && docker run --env-file .env -it --rm -p 3030:3030 sanixdarker/gitrowspack-api:latest || echo 'Error, No .env found !'"
   },
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/sanix-darker/gitrowspack-api.git",
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.0"
   },
   "dependencies": {

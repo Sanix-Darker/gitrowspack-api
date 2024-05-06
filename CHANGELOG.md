@@ -1,4 +1,9 @@
-# CHANGESLOGS
+# CHANGESLOG
+
+## v0.0.4
+
+### Added
+- Upgraded the Docker images with the latest node (v22).
 
 ## v0.0.3
 
