@@ -1,6 +1,6 @@
 {
   "name": "gitrowspack-api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A node-api for the gitrows npm package",
   "scripts": {
     "dev": "test -f .env && nodemon index.js || echo 'Error, No .env found !'",
