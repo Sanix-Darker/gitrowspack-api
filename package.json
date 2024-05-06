@@ -37,7 +37,7 @@
     "csv-stringify": "^5.5.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.3.2",
     "yamljs": "^0.3.0"
   }
 }
