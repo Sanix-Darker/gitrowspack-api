@@ -35,7 +35,7 @@
     "nodemon": "^3.1.0"
   },
   "dependencies": {
-    "csv-parse": "^5.5.5",
+    "csv-parse": "^5.5.6",
     "csv-stringify": "^6.5.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
