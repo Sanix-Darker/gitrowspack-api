@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "csv-parse": "^5.5.6",
-    "csv-stringify": "^6.5.0",
+    "csv-stringify": "^6.5.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "node-fetch": "^3.3.2",
